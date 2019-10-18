@@ -1,8 +1,11 @@
 package com.thinker.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.show.common.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +22,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/helloRobbin")
+@Slf4j
 public class HelloRobbinController {
 
     private static final String REST_URL_PREFIX = "http://show-demo";
@@ -34,6 +38,15 @@ public class HelloRobbinController {
          */
         Map params = new HashMap();
         params.put("uid", uid);
-        return restTemplate.getForObject(REST_URL_PREFIX + "/show/user/getUserInfo"+"?uid={uid}", User.class, params);
+        return restTemplate.getForObject(REST_URL_PREFIX + "/show/user/getUserInfo" + "?uid={uid}", User.class, params);
+    }
+
+    @PostMapping(value = "saveMyInfo")
+    public String saveMyInfo(User user) {
+
+        log.info("saveMyInfo request user = {}", JSON.toJSONString(user));
+        String result = restTemplate.postForObject(REST_URL_PREFIX + "/show/user/saveUser", user, String.class);
+        log.info("服务提供者返回的信息={}", result);
+        return result;
     }
 }
