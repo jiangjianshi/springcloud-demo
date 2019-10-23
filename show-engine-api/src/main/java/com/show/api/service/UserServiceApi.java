@@ -20,7 +20,7 @@ public interface UserServiceApi {
      * @param uid
      * @return
      */
-    @GetMapping(value = "show/user/getUserInfo")
+    @GetMapping(value = "user/getUserInfo")
     User getUserInfo(@RequestParam("uid") Integer uid);
 
     /**
@@ -29,6 +29,6 @@ public interface UserServiceApi {
      * @param user
      * @return
      */
-    @PostMapping(value = "show/user/saveUser")
+    @PostMapping(value = "user/saveUser")
     String saveUser(User user);
 }

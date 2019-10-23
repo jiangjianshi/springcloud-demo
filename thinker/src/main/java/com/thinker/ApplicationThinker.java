@@ -35,7 +35,7 @@ public class ApplicationThinker {
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
         registrationBean.setLoadOnStartup(1);
         //http://localhost:8089/thinker/hystrix.stream
-        registrationBean.addUrlMappings("/hystrix.stream");
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
         registrationBean.setName("HystrixMetricsStreamServlet");
         return registrationBean;
     }
