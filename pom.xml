@@ -15,6 +15,7 @@
         <module>eureka</module>
         <module>show-engine</module>
         <module>thinker</module>
+        <module>hyxtrix-dashboard</module>
     </modules>
 
     <properties>
