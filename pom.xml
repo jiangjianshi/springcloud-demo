@@ -16,6 +16,7 @@
         <module>show-engine</module>
         <module>thinker</module>
         <module>hyxtrix-dashboard</module>
+        <module>gateway-zuul</module>
     </modules>
 
     <properties>

@@ -1,0 +1,29 @@
+server: 
+  port: 9002
+ 
+spring: 
+  application:
+    name: gateway-zuul
+ 
+eureka: 
+  client: 
+    service-url: 
+      defaultZone: http://192.168.180.10:8761/eureka
+  instance:
+    instance-id: springcloud-gateway-zuul
+    prefer-ip-address: true 
+ 
+ 
+zuul: 
+  #ignored-services: thinker
+#  prefix: /test-prefix
+  ignored-services: "*"
+  routes: 
+    thinker: /thinker-proxy/**
+ 
+info:
+  app.name: springcloud-gateway-zuul
+  company.name: br
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
