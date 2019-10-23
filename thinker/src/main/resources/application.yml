@@ -30,11 +30,12 @@ hystrix:
             timeoutInMilliseconds: 10000
         timeout:
           enabled: true
-  threadpool:
-    default:
-      maxQueueSize: 20
-      maximumSize: 20
-
+#  threadpool:
+#    default:
+#      maxQueueSize: 20
+#      maximumSize: 20
+#      queueSizeRejectionThreshold: 20
+#      allowMaximumSizeToDivergeFromCoreSize: true
 
 ribbon:
   ReadTimeout: 10000
