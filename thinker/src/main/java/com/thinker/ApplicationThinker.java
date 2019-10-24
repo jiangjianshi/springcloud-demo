@@ -38,6 +38,7 @@ public class ApplicationThinker {
         registrationBean.addUrlMappings("/actuator/hystrix.stream");
         registrationBean.setName("HystrixMetricsStreamServlet");
         return registrationBean;
+
     }
 
 }
