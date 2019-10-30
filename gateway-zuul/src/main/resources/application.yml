@@ -1,26 +1,48 @@
-server: 
+server:
   port: 9002
- 
-spring: 
+
+spring:
   application:
     name: gateway-zuul
- 
-eureka: 
-  client: 
-    service-url: 
+
+eureka:
+  client:
+    service-url:
       defaultZone: http://192.168.180.10:8761/eureka
   instance:
     instance-id: springcloud-gateway-zuul
-    prefer-ip-address: true 
- 
- 
-zuul: 
+    prefer-ip-address: true
+
+
+zuul:
   #ignored-services: thinker
-#  prefix: /test-prefix
+  prefix: /api
   ignored-services: "*"
-  routes: 
-    thinker: /thinker-proxy/**
- 
+  routes:
+#    thinker: /thinker-proxy/**
+#    show-demo: /show-proxy/**
+    thinker.path: /thinker-proxy/**
+    thinker.serviceId: thinker
+    show.path: /show-proxy/**
+    show.serviceId: show-demo
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 10000
+  SocketTimeout: 15000
+  eager-load:
+    clients: show-demo, thinker
+    enabled: true #开启Ribbon的饥饿加载模式
+
+
 info:
   app.name: springcloud-gateway-zuul
   company.name: br

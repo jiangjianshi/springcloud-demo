@@ -1,12 +1,18 @@
 package com.demo.gateway.filter;
 
+import com.google.gson.Gson;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.Charset;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description TODO
@@ -30,28 +36,56 @@ public class AuthorizedRequestFilter extends ZuulFilter {
         return "pre";
     }
 
+    /**
+     * 过滤器顺序，越小越先执行
+     *
+     * @return
+     */
     @Override
     public int filterOrder() {
         return 0;
     }
 
-
+    /**
+     * 过滤器是否生效
+     * 返回true代表需要权限校验，false代表不需要用户校验即可访问
+     */
     @Override
     public boolean shouldFilter() {
         return true;
     }
 
+    /**
+     * 业务逻辑
+     * 只有上面返回true的时候，才会进入到该方法
+     */
     @Override
     public Object run() throws ZuulException {
         log.info("AuthorizedRequestFilter run.......");
 
-        RequestContext currentContext = RequestContext.getCurrentContext() ; // 获取当前请求的上下文
-        String auth = "studyjava:hello"; // 认证的原始信息
-        byte[] encodedAuth = Base64.getEncoder()
-                .encode(auth.getBytes(Charset.forName("US-ASCII"))); // 进行一个加密的处理
-        // 在进行授权的头信息内容配置的时候加密的信息一定要与“Basic”之间有一个空格
-        String authHeader = "Basic " + new String(encodedAuth);
-        currentContext.addZuulRequestHeader("Authorization", authHeader);
+        // 获取当前请求的上下文
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        HttpServletRequest request = requestContext.getRequest();
+
+        //token对象,有可能在请求头传递过来，也有可能是通过参数传过来，我们的是请求头方式
+        String token = request.getHeader("token");
+
+        if (StringUtils.isBlank((token))) {
+            token = request.getParameter("token");
+        }
+        System.out.println("页面传来的token值为：" + token);
+        //登录校验逻辑  如果token为null，则直接返回客户端，而不进行下一步接口调用
+        if (StringUtils.isBlank(token)) {
+            // 过滤该请求，不对其进行路由
+            requestContext.setSendZuulResponse(false);
+            //返回错误代码
+            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+
+            Map respPap = new HashMap<>();
+            respPap.put("code", 401);
+            respPap.put("message", "没有权限");
+            requestContext.setResponseBody(new Gson().toJson(respPap));
+        }
         return null;
     }
 }
