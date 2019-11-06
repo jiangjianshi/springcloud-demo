@@ -1,20 +1,26 @@
+
+spring:
+  application:
+    name: eureka-server
+
 server:
   port: 8761
 
 eureka:
   instance:
-    hostname: localhost #eureka服务端的实例名称
+    hostname: eureka1.com #eureka服务端的实例名称
     # 指定此实例的ip
     #ip-address: 47.254.34.147
     # 注册时使用ip而不是主机名
     prefer-ip-address: false
   client:
     register-with-eureka: true     #false表示不向注册中心注册自己。
-    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false     #false表示自己端就是注册中心，并不需要去检索服务
     service-url:
       #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
       #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址（单机）。
-      defaultZone: http://192.168.180.12:8761/eureka/,http://192.168.180.10:8761/eureka/
+      defaultZone: http://eureka1.com:8761/eureka/,http://eureka2.com:8762/eureka/,http://eureka3.com:8763/eureka/
+#      defaultZone: http://localhost:8761/eureka/
   server:
     response-cache-update-interval-ms: 3000
     #启用主动失效，并且每次主动失效检测间隔为30s，默认为0
