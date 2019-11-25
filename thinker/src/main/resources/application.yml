@@ -9,6 +9,10 @@ spring:
   application:
     name: thinker
   cloud:
+    sentinel:
+      eager: true
+      transport:
+        dashboard: localhost:8080
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
@@ -16,20 +20,21 @@ spring:
 #        server-addr: 127.0.0.1:8848
 #        file-extension: yaml
 
+
 feign:
-  hystrix:
+  sentinel:
     enabled: true
 
 #hystrix的超时时间
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10000
-        timeout:
-          enabled: true
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000
+#        timeout:
+#          enabled: true
 #  threadpool:
 #    default:
 #      maxQueueSize: 20
