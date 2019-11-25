@@ -5,6 +5,8 @@ import com.show.api.service.UserServiceApi;
 import com.show.common.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,7 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/hello")
 @Slf4j
+@RefreshScope
 public class HelloController {
+
+    @Value("${test.config:hello nacos config}")
+    private String testConfig;
 
     @GetMapping(value = "/man")
     public String man(String name) {
@@ -33,6 +39,7 @@ public class HelloController {
 
         User user = userServiceApi.getUserInfo(uid);
         System.out.println("uid = " + uid + "user = " + JSON.toJSON(user));
+        System.out.println(testConfig);
         return user;
     }
 

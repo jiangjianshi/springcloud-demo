@@ -1,24 +1,24 @@
+
 server:
   port: 8089
 #  servlet:
 #    context-path: /thinker
-
 spring:
+  profiles:
+    active: dev
   application:
     name: thinker
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+#      config:
+#        server-addr: 127.0.0.1:8848
+#        file-extension: yaml
 
-feign: 
+feign:
   hystrix:
     enabled: true
-
-eureka:
-  client:
-    #eureka client刷新本地缓存时间,默认30s
-    registry-fetch-interval-seconds: 5
-    register-with-eureka: true
-    service-url: 
-      defaultZone: http://eureka1.com:8761//eureka/
-
 
 #hystrix的超时时间
 hystrix:
