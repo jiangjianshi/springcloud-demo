@@ -5,7 +5,7 @@ server:
 #    context-path: /thinker
 spring:
   profiles:
-    active: dev
+    active: daily
   application:
     name: thinker
   cloud:
@@ -16,6 +16,7 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        namespace: 17b2b624-cd10-465b-beb0-3a6cd834c593
 #      config:
 #        server-addr: 127.0.0.1:8848
 #        file-extension: yaml
